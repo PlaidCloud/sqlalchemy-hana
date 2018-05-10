@@ -28,7 +28,7 @@ setup(
     author="Christoph Heer",
     author_email="christoph.heer@sap.com",
     description="SQLAlchemy dialect for SAP HANA Database",
-    packages=find_packages(exclude=("test", "test.*",)),
+    packages=find_packages(),
     zip_safe=False,
     install_requires=[
         "sqlalchemy"
@@ -40,7 +40,10 @@ setup(
         "pytest>=2.5.2",
         "mock>=1.0.1"
     ],
-    classifiers=[ # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    setup_requires=['pytest-runner'],
+    test_suite="test.test_suite",
+    #test_suite="test.run_tests.setup_py_test",
+    classifiers=[  # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
@@ -56,7 +59,7 @@ setup(
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-     entry_points = {  
+    entry_points={
          'sqlalchemy.dialects': 
          ['hana = sqlalchemy_hana.dialect:HANAHDBCLIDialect',         
           'hana.hdbcli = sqlalchemy_hana.dialect:HANAHDBCLIDialect',         

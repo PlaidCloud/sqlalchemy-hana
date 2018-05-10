@@ -44,7 +44,7 @@ class HANAIdentifierPreparer(compiler.IdentifierPreparer):
 
 class HANAStatementCompiler(compiler.SQLCompiler):
 
-    def visit_sequence(self, seq):
+    def visit_sequence(self, seq, **kw):
         return self.dialect.identifier_preparer.format_sequence(seq) + ".NEXTVAL"
 
     def default_from(self):

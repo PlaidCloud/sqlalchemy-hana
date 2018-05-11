@@ -152,6 +152,10 @@ class Requirements(requirements.SuiteRequirements):
         return exclusions.open()
 
     @property
+    def reflectable_autoincrement(self):
+        return exclusions.open()
+
+    @property
     def sane_rowcount(self):
         return exclusions.closed()
 
@@ -185,7 +189,7 @@ class Requirements(requirements.SuiteRequirements):
 
     @property
     def updateable_autoincrement_pks(self):
-        return exclusions.closed()
+        return exclusions.open()
 
     @property
     def bound_limit_offset(self):

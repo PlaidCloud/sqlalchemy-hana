@@ -19,6 +19,7 @@ from sqlalchemy.sql.elements import quoted_name
 from sqlalchemy import exc, schema
 from sqlalchemy_hana import types as hana_types
 from contextlib import closing
+import re
 
 RESERVED_WORDS = {
     'all', 'alter', 'as', 'before', 'begin', 'both', 'case', 'char',
@@ -304,7 +305,16 @@ class HANABaseDialect(default.DefaultDialect):
         return result[0]
 
     def _get_server_version_info(self, connection):
-        pass
+        """Get the version of the HANA server used by a connection.
+
+        Returns a tuple of (`major`, `minor`, `service pack`, `patch`, `build`)
+        """
+        db_version = connection.execute("SELECT VERSION FROM SYS.M_DATABASE").scalar()
+        m = re.match(r"(\d+).(\d+).(\d+).(\d+).(\d+)", db_version)
+        if m:
+            return tuple(int(x) for x in m.group(1, 2, 3, 4, 5))
+        else:
+            return None
 
     def _get_default_schema_name(self, connection):
         return self.normalize_name(connection.engine.url.username.upper())
